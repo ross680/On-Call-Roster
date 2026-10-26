@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<!-- saved from url=(0058)file:///Users/rossh/Downloads/3R_On_Call_Roster%20(1).html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>On-Call Roster — Apr 13 to Jun 28, 2026</title>
+<title>On-call roster</title>
 <style>
 :root{
   --bg:#ffffff;--bg2:#f5f5f3;--bg3:#efefec;
@@ -52,19 +51,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .tabs{display:flex;gap:4px;margin-bottom:1rem;flex-wrap:wrap}
 .tab{border:0.5px solid var(--border2);background:transparent;color:var(--text2);border-radius:var(--radius);cursor:pointer;font-size:12px;padding:5px 14px;font-family:inherit}
 .tab.on{background:var(--text);color:var(--bg);border-color:var(--text)}
-.col-leg{display:grid;grid-template-columns:92px 1fr 1fr 90px 115px;background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);margin-bottom:6px}
+.col-leg{display:grid;grid-template-columns:148px 1fr 1fr 90px 115px;background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);margin-bottom:6px}
 .cl{padding:5px 8px;font-size:10px;font-weight:600;color:var(--text2);text-align:center;border-right:0.5px solid var(--border)}
 .cl:last-child{border-right:none}
 .weeks{display:flex;flex-direction:column;gap:8px;margin-bottom:1rem}
 .wk{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
 .wk.hol{border-color:var(--amber-bd)}
 .wk.cur{border-color:var(--blue-bd)}
-.wk-row{display:grid;grid-template-columns:92px 1fr 1fr 90px 115px}
+.wk-row{display:grid;grid-template-columns:148px 1fr 1fr 90px 115px}
 .wc{padding:10px;border-right:0.5px solid var(--border);vertical-align:top}
 .wc:last-child{border-right:none}
 .wlbl{font-weight:600;font-size:12px;color:var(--text)}
 .wdr{font-size:11px;color:var(--text2);margin-top:1px}
-.tag{display:inline-flex;border-radius:20px;font-size:9px;font-weight:600;padding:2px 7px;margin-top:3px}
+.tag{display:inline-block;border-radius:20px;font-size:9px;font-weight:600;padding:2px 7px;margin-top:3px;max-width:100%;white-space:normal;line-height:1.3;text-align:left}
+.roster-tools{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
 .t-hol{background:var(--amber-bg);color:var(--amber-tx);border:0.5px solid var(--amber-bd)}
 .t-now{background:#185FA5;color:#fff}
 .t-lck{background:var(--bg2);color:var(--text2);border:0.5px solid var(--border2)}
@@ -198,12 +198,12 @@ input:focus,select:focus,textarea:focus{border-color:#185FA5;box-shadow:0 0 0 3p
 
   <div class="top-bar">
     <div>
-      <div class="ptitle">On-call roster — Apr 13 to Jun 28, 2026</div>
-      <div class="psub">Claim your week. Earn points. Top tech wins the on-call bonus.</div>
+      <div class="ptitle" id="page-title">On-call roster</div>
+      <div class="psub" id="page-sub">Claim your week. Earn points. Top tech wins the on-call bonus.</div>
     </div>
     <div class="top-acts">
       <div id="saving-ind" style="display: none; align-items: center; gap: 5px; font-size: 11px; color: var(--text2);"><div style="width:12px;height:12px;border:2px solid var(--border2);border-top-color:var(--text2);border-radius:50%;animation:spin .7s linear infinite"></div>Saving…</div>
-      <button class="bcx" onclick="openSettings()">⚙ Settings</button>
+      <button class="bcx" type="button" onclick="openSettings()">⚙ Settings</button>
     </div>
   </div>
 
@@ -219,17 +219,20 @@ input:focus,select:focus,textarea:focus{border-color:#185FA5;box-shadow:0 0 0 3p
     <div class="pill dp"><strong>$299 dispatch</strong> — non-member &amp; non-existing • waived: member • repair &gt;$3k • high-$ existing • never waive new customers</div>
   </div>
 
-  <div class="stats" id="stats"><div class="stat"><div class="stat-lbl">Open weeks</div><div class="stat-val" style="color:var(--danger)">11</div></div><div class="stat"><div class="stat-lbl">Primary claimed</div><div class="stat-val">0 / 11</div></div><div class="stat"><div class="stat-lbl">Day covers logged</div><div class="stat-val">0</div></div><div class="stat"><div class="stat-lbl">Holiday weeks filled</div><div class="stat-val">0 / 3</div></div></div>
+  <div class="stats" id="stats"></div>
 
   <div class="tabs">
-    <button class="tab on" id="tab-roster" onclick="setTab(&#39;roster&#39;)">Roster</button>
-    <button class="tab" id="tab-lb" onclick="setTab(&#39;lb&#39;)">🏆 Leaderboard</button>
-    <button class="tab" id="tab-summary" onclick="setTab(&#39;summary&#39;)">Summaries</button>
-    <button class="tab" id="tab-log" onclick="setTab(&#39;log&#39;)">Activity log</button>
+    <button class="tab on" id="tab-roster" type="button" onclick="setTab('roster')">Roster</button>
+    <button class="tab" id="tab-lb" type="button" onclick="setTab('lb')">🏆 Leaderboard</button>
+    <button class="tab" id="tab-summary" type="button" onclick="setTab('summary')">Summaries</button>
+    <button class="tab" id="tab-log" type="button" onclick="setTab('log')">Activity log</button>
   </div>
 
-  <!-- ROSTER -->
   <div id="view-roster">
+    <div class="roster-tools">
+      <button class="bcx" type="button" onclick="scrollToCurrent()">Jump to this week</button>
+      <button class="bcx" type="button" id="past-toggle" style="display:none" onclick="togglePast()"></button>
+    </div>
     <div class="col-leg">
       <div class="cl">Week</div>
       <div class="cl" style="color:#0C447C">Primary — full week</div>
@@ -237,10 +240,9 @@ input:focus,select:focus,textarea:focus{border-color:#185FA5;box-shadow:0 0 0 3p
       <div class="cl" style="color:#791F1F">Dispatch rules</div>
       <div class="cl">Notes</div>
     </div>
-    <div class="weeks" id="weeks"><div class="wk cur"><div class="wk-row"><div class="wc"><div class="wlbl">Week 1</div><div class="wdr">Apr 13–19</div><span class="tag t-now">Current week</span></div><div class="wc"><button class="pempty" onclick="openPrimary(0)"><span style="font-size:15px;line-height:1">+</span> I'll take this week</button></div><div class="wc"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:9px;color:var(--text2)">Backup days</span><span style="font-size:9px;color:var(--text2)">0/7 covered</span></div><div class="dgrid"><div class="dbtn" onclick="openDay(0,&#39;Mon&#39;)"><span class="dlbl">Mon</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(0,&#39;Tue&#39;)"><span class="dlbl">Tue</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(0,&#39;Wed&#39;)"><span class="dlbl">Wed</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(0,&#39;Thu&#39;)"><span class="dlbl">Thu</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(0,&#39;Fri&#39;)"><span class="dlbl">Fri</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(0,&#39;Sat&#39;)"><span class="dlbl">Sat</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(0,&#39;Sun&#39;)"><span class="dlbl">Sun</span><span class="dplus">+</span></div></div><div class="chint">tap any open day to cover it</div></div><div class="wc"><div class="dp-card"><strong>$299</strong> dispatch fee<br>Waived if:<br>• On membership<br>• Repair &gt;$3,000<br>• High-$ existing<br><em>Never waive new customers</em></div></div><div class="wc"><textarea id="note-0" class="nta" placeholder="Notes, instructions…" oninput="saveNote(0)"></textarea></div></div></div><div class="wk"><div class="wk-row"><div class="wc"><div class="wlbl">Week 2</div><div class="wdr">Apr 20–26</div></div><div class="wc"><button class="pempty" onclick="openPrimary(1)"><span style="font-size:15px;line-height:1">+</span> I'll take this week</button></div><div class="wc"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:9px;color:var(--text2)">Backup days</span><span style="font-size:9px;color:var(--text2)">0/7 covered</span></div><div class="dgrid"><div class="dbtn" onclick="openDay(1,&#39;Mon&#39;)"><span class="dlbl">Mon</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(1,&#39;Tue&#39;)"><span class="dlbl">Tue</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(1,&#39;Wed&#39;)"><span class="dlbl">Wed</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(1,&#39;Thu&#39;)"><span class="dlbl">Thu</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(1,&#39;Fri&#39;)"><span class="dlbl">Fri</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(1,&#39;Sat&#39;)"><span class="dlbl">Sat</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(1,&#39;Sun&#39;)"><span class="dlbl">Sun</span><span class="dplus">+</span></div></div><div class="chint">tap any open day to cover it</div></div><div class="wc"><div class="dp-card"><strong>$299</strong> dispatch fee<br>Waived if:<br>• On membership<br>• Repair &gt;$3,000<br>• High-$ existing<br><em>Never waive new customers</em></div></div><div class="wc"><textarea id="note-1" class="nta" placeholder="Notes, instructions…" oninput="saveNote(1)"></textarea></div></div></div><div class="wk"><div class="wk-row"><div class="wc"><div class="wlbl">Week 3</div><div class="wdr">Apr 27–May 3</div></div><div class="wc"><button class="pempty" onclick="openPrimary(2)"><span style="font-size:15px;line-height:1">+</span> I'll take this week</button></div><div class="wc"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:9px;color:var(--text2)">Backup days</span><span style="font-size:9px;color:var(--text2)">0/7 covered</span></div><div class="dgrid"><div class="dbtn" onclick="openDay(2,&#39;Mon&#39;)"><span class="dlbl">Mon</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(2,&#39;Tue&#39;)"><span class="dlbl">Tue</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(2,&#39;Wed&#39;)"><span class="dlbl">Wed</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(2,&#39;Thu&#39;)"><span class="dlbl">Thu</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(2,&#39;Fri&#39;)"><span class="dlbl">Fri</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(2,&#39;Sat&#39;)"><span class="dlbl">Sat</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(2,&#39;Sun&#39;)"><span class="dlbl">Sun</span><span class="dplus">+</span></div></div><div class="chint">tap any open day to cover it</div></div><div class="wc"><div class="dp-card"><strong>$299</strong> dispatch fee<br>Waived if:<br>• On membership<br>• Repair &gt;$3,000<br>• High-$ existing<br><em>Never waive new customers</em></div></div><div class="wc"><textarea id="note-2" class="nta" placeholder="Notes, instructions…" oninput="saveNote(2)"></textarea></div></div></div><div class="wk hol"><div class="wk-row"><div class="wc"><div class="wlbl">Week 4</div><div class="wdr">May 4–10</div><span class="tag t-hol">Mother's Day +$50</span></div><div class="wc"><button class="pempty" onclick="openPrimary(3)"><span style="font-size:15px;line-height:1">+</span> I'll take this week</button></div><div class="wc"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:9px;color:var(--text2)">Backup days</span><span style="font-size:9px;color:var(--text2)">0/7 covered</span></div><div class="dgrid"><div class="dbtn" onclick="openDay(3,&#39;Mon&#39;)"><span class="dlbl">Mon</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(3,&#39;Tue&#39;)"><span class="dlbl">Tue</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(3,&#39;Wed&#39;)"><span class="dlbl">Wed</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(3,&#39;Thu&#39;)"><span class="dlbl">Thu</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(3,&#39;Fri&#39;)"><span class="dlbl">Fri</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(3,&#39;Sat&#39;)"><span class="dlbl">Sat</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(3,&#39;Sun&#39;)"><span class="dlbl">Sun</span><span class="dplus">+</span></div></div><div class="chint">tap any open day to cover it</div></div><div class="wc"><div class="dp-card"><strong>$299</strong> dispatch fee<br>Waived if:<br>• On membership<br>• Repair &gt;$3,000<br>• High-$ existing<br><em>Never waive new customers</em></div></div><div class="wc"><textarea id="note-3" class="nta" placeholder="Notes, instructions…" oninput="saveNote(3)"></textarea></div></div></div><div class="wk"><div class="wk-row"><div class="wc"><div class="wlbl">Week 5</div><div class="wdr">May 11–17</div></div><div class="wc"><button class="pempty" onclick="openPrimary(4)"><span style="font-size:15px;line-height:1">+</span> I'll take this week</button></div><div class="wc"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:9px;color:var(--text2)">Backup days</span><span style="font-size:9px;color:var(--text2)">0/7 covered</span></div><div class="dgrid"><div class="dbtn" onclick="openDay(4,&#39;Mon&#39;)"><span class="dlbl">Mon</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(4,&#39;Tue&#39;)"><span class="dlbl">Tue</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(4,&#39;Wed&#39;)"><span class="dlbl">Wed</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(4,&#39;Thu&#39;)"><span class="dlbl">Thu</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(4,&#39;Fri&#39;)"><span class="dlbl">Fri</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(4,&#39;Sat&#39;)"><span class="dlbl">Sat</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(4,&#39;Sun&#39;)"><span class="dlbl">Sun</span><span class="dplus">+</span></div></div><div class="chint">tap any open day to cover it</div></div><div class="wc"><div class="dp-card"><strong>$299</strong> dispatch fee<br>Waived if:<br>• On membership<br>• Repair &gt;$3,000<br>• High-$ existing<br><em>Never waive new customers</em></div></div><div class="wc"><textarea id="note-4" class="nta" placeholder="Notes, instructions…" oninput="saveNote(4)"></textarea></div></div></div><div class="wk"><div class="wk-row"><div class="wc"><div class="wlbl">Week 6</div><div class="wdr">May 18–24</div></div><div class="wc"><button class="pempty" onclick="openPrimary(5)"><span style="font-size:15px;line-height:1">+</span> I'll take this week</button></div><div class="wc"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:9px;color:var(--text2)">Backup days</span><span style="font-size:9px;color:var(--text2)">0/7 covered</span></div><div class="dgrid"><div class="dbtn" onclick="openDay(5,&#39;Mon&#39;)"><span class="dlbl">Mon</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(5,&#39;Tue&#39;)"><span class="dlbl">Tue</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(5,&#39;Wed&#39;)"><span class="dlbl">Wed</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(5,&#39;Thu&#39;)"><span class="dlbl">Thu</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(5,&#39;Fri&#39;)"><span class="dlbl">Fri</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(5,&#39;Sat&#39;)"><span class="dlbl">Sat</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(5,&#39;Sun&#39;)"><span class="dlbl">Sun</span><span class="dplus">+</span></div></div><div class="chint">tap any open day to cover it</div></div><div class="wc"><div class="dp-card"><strong>$299</strong> dispatch fee<br>Waived if:<br>• On membership<br>• Repair &gt;$3,000<br>• High-$ existing<br><em>Never waive new customers</em></div></div><div class="wc"><textarea id="note-5" class="nta" placeholder="Notes, instructions…" oninput="saveNote(5)"></textarea></div></div></div><div class="wk hol"><div class="wk-row"><div class="wc"><div class="wlbl">Week 7</div><div class="wdr">May 25–31</div><span class="tag t-hol">Memorial Day +$50</span></div><div class="wc"><button class="pempty" onclick="openPrimary(6)"><span style="font-size:15px;line-height:1">+</span> I'll take this week</button></div><div class="wc"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:9px;color:var(--text2)">Backup days</span><span style="font-size:9px;color:var(--text2)">0/7 covered</span></div><div class="dgrid"><div class="dbtn" onclick="openDay(6,&#39;Mon&#39;)"><span class="dlbl">Mon</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(6,&#39;Tue&#39;)"><span class="dlbl">Tue</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(6,&#39;Wed&#39;)"><span class="dlbl">Wed</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(6,&#39;Thu&#39;)"><span class="dlbl">Thu</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(6,&#39;Fri&#39;)"><span class="dlbl">Fri</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(6,&#39;Sat&#39;)"><span class="dlbl">Sat</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(6,&#39;Sun&#39;)"><span class="dlbl">Sun</span><span class="dplus">+</span></div></div><div class="chint">tap any open day to cover it</div></div><div class="wc"><div class="dp-card"><strong>$299</strong> dispatch fee<br>Waived if:<br>• On membership<br>• Repair &gt;$3,000<br>• High-$ existing<br><em>Never waive new customers</em></div></div><div class="wc"><textarea id="note-6" class="nta" placeholder="Notes, instructions…" oninput="saveNote(6)"></textarea></div></div></div><div class="wk"><div class="wk-row"><div class="wc"><div class="wlbl">Week 8</div><div class="wdr">Jun 1–7</div></div><div class="wc"><button class="pempty" onclick="openPrimary(7)"><span style="font-size:15px;line-height:1">+</span> I'll take this week</button></div><div class="wc"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:9px;color:var(--text2)">Backup days</span><span style="font-size:9px;color:var(--text2)">0/7 covered</span></div><div class="dgrid"><div class="dbtn" onclick="openDay(7,&#39;Mon&#39;)"><span class="dlbl">Mon</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(7,&#39;Tue&#39;)"><span class="dlbl">Tue</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(7,&#39;Wed&#39;)"><span class="dlbl">Wed</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(7,&#39;Thu&#39;)"><span class="dlbl">Thu</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(7,&#39;Fri&#39;)"><span class="dlbl">Fri</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(7,&#39;Sat&#39;)"><span class="dlbl">Sat</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(7,&#39;Sun&#39;)"><span class="dlbl">Sun</span><span class="dplus">+</span></div></div><div class="chint">tap any open day to cover it</div></div><div class="wc"><div class="dp-card"><strong>$299</strong> dispatch fee<br>Waived if:<br>• On membership<br>• Repair &gt;$3,000<br>• High-$ existing<br><em>Never waive new customers</em></div></div><div class="wc"><textarea id="note-7" class="nta" placeholder="Notes, instructions…" oninput="saveNote(7)"></textarea></div></div></div><div class="wk"><div class="wk-row"><div class="wc"><div class="wlbl">Week 9</div><div class="wdr">Jun 8–14</div></div><div class="wc"><button class="pempty" onclick="openPrimary(8)"><span style="font-size:15px;line-height:1">+</span> I'll take this week</button></div><div class="wc"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:9px;color:var(--text2)">Backup days</span><span style="font-size:9px;color:var(--text2)">0/7 covered</span></div><div class="dgrid"><div class="dbtn" onclick="openDay(8,&#39;Mon&#39;)"><span class="dlbl">Mon</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(8,&#39;Tue&#39;)"><span class="dlbl">Tue</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(8,&#39;Wed&#39;)"><span class="dlbl">Wed</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(8,&#39;Thu&#39;)"><span class="dlbl">Thu</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(8,&#39;Fri&#39;)"><span class="dlbl">Fri</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(8,&#39;Sat&#39;)"><span class="dlbl">Sat</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(8,&#39;Sun&#39;)"><span class="dlbl">Sun</span><span class="dplus">+</span></div></div><div class="chint">tap any open day to cover it</div></div><div class="wc"><div class="dp-card"><strong>$299</strong> dispatch fee<br>Waived if:<br>• On membership<br>• Repair &gt;$3,000<br>• High-$ existing<br><em>Never waive new customers</em></div></div><div class="wc"><textarea id="note-8" class="nta" placeholder="Notes, instructions…" oninput="saveNote(8)"></textarea></div></div></div><div class="wk hol"><div class="wk-row"><div class="wc"><div class="wlbl">Week 10</div><div class="wdr">Jun 15–21</div><span class="tag t-hol">Father's Day +$50</span></div><div class="wc"><button class="pempty" onclick="openPrimary(9)"><span style="font-size:15px;line-height:1">+</span> I'll take this week</button></div><div class="wc"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:9px;color:var(--text2)">Backup days</span><span style="font-size:9px;color:var(--text2)">0/7 covered</span></div><div class="dgrid"><div class="dbtn" onclick="openDay(9,&#39;Mon&#39;)"><span class="dlbl">Mon</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(9,&#39;Tue&#39;)"><span class="dlbl">Tue</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(9,&#39;Wed&#39;)"><span class="dlbl">Wed</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(9,&#39;Thu&#39;)"><span class="dlbl">Thu</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(9,&#39;Fri&#39;)"><span class="dlbl">Fri</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(9,&#39;Sat&#39;)"><span class="dlbl">Sat</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(9,&#39;Sun&#39;)"><span class="dlbl">Sun</span><span class="dplus">+</span></div></div><div class="chint">tap any open day to cover it</div></div><div class="wc"><div class="dp-card"><strong>$299</strong> dispatch fee<br>Waived if:<br>• On membership<br>• Repair &gt;$3,000<br>• High-$ existing<br><em>Never waive new customers</em></div></div><div class="wc"><textarea id="note-9" class="nta" placeholder="Notes, instructions…" oninput="saveNote(9)"></textarea></div></div></div><div class="wk"><div class="wk-row"><div class="wc"><div class="wlbl">Week 11</div><div class="wdr">Jun 22–28</div></div><div class="wc"><button class="pempty" onclick="openPrimary(10)"><span style="font-size:15px;line-height:1">+</span> I'll take this week</button></div><div class="wc"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:9px;color:var(--text2)">Backup days</span><span style="font-size:9px;color:var(--text2)">0/7 covered</span></div><div class="dgrid"><div class="dbtn" onclick="openDay(10,&#39;Mon&#39;)"><span class="dlbl">Mon</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(10,&#39;Tue&#39;)"><span class="dlbl">Tue</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(10,&#39;Wed&#39;)"><span class="dlbl">Wed</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(10,&#39;Thu&#39;)"><span class="dlbl">Thu</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(10,&#39;Fri&#39;)"><span class="dlbl">Fri</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(10,&#39;Sat&#39;)"><span class="dlbl">Sat</span><span class="dplus">+</span></div><div class="dbtn" onclick="openDay(10,&#39;Sun&#39;)"><span class="dlbl">Sun</span><span class="dplus">+</span></div></div><div class="chint">tap any open day to cover it</div></div><div class="wc"><div class="dp-card"><strong>$299</strong> dispatch fee<br>Waived if:<br>• On membership<br>• Repair &gt;$3,000<br>• High-$ existing<br><em>Never waive new customers</em></div></div><div class="wc"><textarea id="note-10" class="nta" placeholder="Notes, instructions…" oninput="saveNote(10)"></textarea></div></div></div></div>
+    <div class="weeks" id="weeks"></div>
   </div>
 
-  <!-- LEADERBOARD -->
   <div id="view-lb" style="display:none">
     <div class="sect-title">How points are earned</div>
     <div class="pt-key" id="pt-key"></div>
@@ -250,6 +252,7 @@ input:focus,select:focus,textarea:focus{border-color:#185FA5;box-shadow:0 0 0 3p
       <div class="bt-card bt-silver"><div class="bt-icon">🏈</div><div class="bt-rank">2nd place</div><div class="bt-prize" id="prize2-lbl">Loading…</div></div>
       <div class="bt-card bt-bronze"><div class="bt-icon">🏇</div><div class="bt-rank">3rd place</div><div class="bt-prize" id="prize3-lbl">Loading…</div></div>
     </div>
+    <div class="psub" style="margin:-0.75rem 0 1rem">Tied scores share a place and the same prize.</div>
     <div class="lb-header">
       <div>Rank</div><div>Tech</div>
       <div style="text-align:center">Weeks</div>
@@ -261,10 +264,8 @@ input:focus,select:focus,textarea:focus{border-color:#185FA5;box-shadow:0 0 0 3p
     <div id="leaderboard"></div>
   </div>
 
-  <!-- SUMMARIES -->
   <div id="view-summary" style="display:none"><div id="summaries"></div></div>
 
-  <!-- LOG -->
   <div id="view-log" style="display:none">
     <div class="lcard">
       <div class="lrow lhead"><span>Time</span><span>Tech</span><span>Week</span><span>Action</span><span>Type</span></div>
@@ -272,385 +273,424 @@ input:focus,select:focus,textarea:focus{border-color:#185FA5;box-shadow:0 0 0 3p
     </div>
   </div>
 
-</div><!-- /page -->
+</div>
 
+<noscript><div class="page">This roster needs JavaScript.</div></noscript>
+
+<script src="roster.js"></script>
 <script>
-// ================================================================
-//  STEP 1: Paste your Google Apps Script Web App URL below
-//  (see setup instructions at the top of this file)
-// ================================================================
+// Week list, holidays, and scoring live in roster.js.
+// SCRIPT_URL is the Google Apps Script web app. See README for what it accepts.
 var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyswF6TfJ70hoQKuiwT7oYknO5hzgxEG3bKgVMFzPgVcVb05Mhr5_zjSpMQ3v_Ip9PVsw/exec';
-// ================================================================
 
-var DAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-var WEEKS=[
-  {num:1,label:'Week 1',dates:'Apr 13\u201319',holiday:null},
-  {num:2,label:'Week 2',dates:'Apr 20\u201326',holiday:null},
-  {num:3,label:'Week 3',dates:'Apr 27\u2013May 3',holiday:null},
-  {num:4,label:'Week 4',dates:'May 4\u201310',holiday:"Mother's Day"},
-  {num:5,label:'Week 5',dates:'May 11\u201317',holiday:null},
-  {num:6,label:'Week 6',dates:'May 18\u201324',holiday:null},
-  {num:7,label:'Week 7',dates:'May 25\u201331',holiday:'Memorial Day'},
-  {num:8,label:'Week 8',dates:'Jun 1\u20137',holiday:null},
-  {num:9,label:'Week 9',dates:'Jun 8\u201314',holiday:null},
-  {num:10,label:'Week 10',dates:'Jun 15\u201321',holiday:"Father's Day"},
-  {num:11,label:'Week 11',dates:'Jun 22\u201328',holiday:null}
-];
-var SCORING={primary:10,backupDay:2,holidayPrimary:8,holidayDay:4};
+if (typeof Roster === 'undefined') {
+  document.getElementById('weeks').textContent = 'Could not load roster.js.';
+  throw new Error('roster.js missing');
+}
 
-// ---- State ----
-var techs=[];
-var slots=WEEKS.map(function(){return{primary:null,days:{},note:'',locked:false};});
-var log=[];
-var settings={managerEmail:'',notifyEmail:true,prize1:'$250 end-of-period bonus',prize2:'$100 end-of-period bonus',prize3:'$50 end-of-period bonus'};
-var pending=null,activeTab='roster';
-var noteTimers={};
+var TODAY = Roster.todayISO();
+var WEEKS = Roster.generateWeeks(Roster.CONFIG, TODAY);
+var DAYS = Roster.dayNames(Roster.CONFIG);
+var techs = [];
+var slots = Roster.blankSlots(WEEKS.length);
+var log = [];
+var settings = {managerEmail:'', notifyEmail:true, prize1:'$250 end-of-period bonus', prize2:'$100 end-of-period bonus', prize3:'$50 end-of-period bonus'};
+var pending = null, activeTab = 'roster';
+var noteTimers = {};
+var showEmptyPast = false;
 
-// ---- Helpers ----
-function isConfigured(){return true;}
-function showSaving(on){var el=document.getElementById('saving-ind');if(el)el.style.display=on?'flex':'none';}
-function showOffline(on){var el=document.getElementById('offline-banner');if(el)el.style.display=on?'block':'none';}
-function ts(){return new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});}
-function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},3000);}
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function isConfigured() { return !!SCRIPT_URL; }
+function showSaving(on) { var el = document.getElementById('saving-ind'); if (el) el.style.display = on ? 'flex' : 'none'; }
+function showOffline(on) { var el = document.getElementById('offline-banner'); if (el) el.style.display = on ? 'block' : 'none'; }
+function ts() { return new Date().toLocaleString('en-US', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'}); }
+function toast(msg) { var t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); }, 3000); }
+function esc(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+function slotAt(i) { return slots[i] || Roster.emptySlot(); }
 
-// ---- API ----
-async function api(params){
-  if(!isConfigured()){toast('Paste your SCRIPT_URL first (see setup instructions).');return null;}
+function isPastEmpty(w, s) {
+  if (w.end >= TODAY) return false;
+  if (w.holiday) return false;
+  if (s.primary) return false;
+  if (s.note && String(s.note).trim()) return false;
+  if (Object.keys(s.days).length) return false;
+  return true;
+}
+function weekShown(w, s) { return showEmptyPast || !isPastEmpty(w, s); }
+
+function applyPayload(data) {
+  if (!data) return;
+  if (data.techs) techs = data.techs;
+  if (data.log) log = data.log;
+  if (data.settings) settings = Object.assign(settings, data.settings);
+  if (data.slots) {
+    var normalized = Roster.normalizeSlots(data.slots, WEEKS.length);
+    if (normalized.length > WEEKS.length) {
+      WEEKS = Roster.generateWeeks(Roster.CONFIG, TODAY, normalized.length);
+      DAYS = Roster.dayNames(Roster.CONFIG);
+    }
+    slots = Roster.normalizeSlots(data.slots, WEEKS.length);
+  }
+}
+
+async function api(params) {
+  if (!isConfigured()) { toast('Add your SCRIPT_URL in index.html.'); return null; }
   showSaving(true);
-  try{
-    var qs=Object.keys(params).map(function(k){return encodeURIComponent(k)+'='+encodeURIComponent(params[k]);}).join('&');
-    var res=await fetch(SCRIPT_URL+'?'+qs);
-    var data=await res.json();
-    if(data.error)throw new Error(data.error);
-    if(data.slots)slots=data.slots;
-    if(data.techs)techs=data.techs;
-    if(data.log)log=data.log;
-    if(data.settings)settings=Object.assign(settings,data.settings);
-    slots.forEach(function(s){if(!s.days)s.days={};if(s.note===undefined)s.note='';if(s.locked===undefined)s.locked=false;});
+  try {
+    var qs = Object.keys(params).map(function(k){ return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]); }).join('&');
+    var res = await fetch(SCRIPT_URL + '?' + qs);
+    var data = await res.json();
+    if (data.error) throw new Error(data.error);
+    applyPayload(data);
     showOffline(false);
     return data;
-  }catch(e){
+  } catch (e) {
     showOffline(true);
-    console.error('API error:',e);
+    console.error('API error:', e);
     return null;
-  }finally{
+  } finally {
     showSaving(false);
   }
 }
 
-async function load(){
-  var data=await api({action:'get'});
-  if(data){render();}
+async function load() {
+  var data = await api({action:'get'});
+  if (data) render();
+  if (activeTab === 'roster') scrollToCurrent();
 }
 
-// saveAll now writes to Sheets — called by confirm functions directly
-function saveAll(){/* no-op: all saves go through api() calls */}
-
-function calcPoints(name){
-  var pts=0,primWks=0,days=0,holCount=0;
-  WEEKS.forEach(function(w,i){
-    var s=slots[i],isHol=!!w.holiday;
-    if(s.primary===name){primWks++;pts+=isHol?SCORING.primary+SCORING.holidayPrimary:SCORING.primary;}
-    Object.keys(s.days).forEach(function(d){
-      if(s.days[d]===name){days++;pts+=isHol?SCORING.backupDay+SCORING.holidayDay:SCORING.backupDay;if(isHol)holCount++;}
-    });
-    if(isHol&&s.primary===name)holCount++;
+function techHolWks(name) {
+  var found = [];
+  WEEKS.forEach(function(w, i) {
+    if (!w.holiday) return;
+    var s = slotAt(i);
+    var onWeek = s.primary === name;
+    if (!onWeek) {
+      Object.keys(s.days).forEach(function(d) { if (s.days[d] === name) onWeek = true; });
+    }
+    if (onWeek) found.push(i);
   });
-  return{pts:pts,primWks:primWks,days:days,holCount:holCount};
+  return found;
+}
+function hasConsecHol(name, idx) { return techHolWks(name).some(function(i){ return Math.abs(i - idx) <= 1; }); }
+
+function sendEmail(subj, body) {
+  if (!settings.managerEmail || !settings.notifyEmail) return;
+  try { window.open('mailto:' + encodeURIComponent(settings.managerEmail) + '?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(body)); } catch (e) {}
+}
+function emailBody(action, tech, week, day, isHol, pts) {
+  return 'On-Call Roster Notification\n\nAction: ' + action + '\nTech: ' + tech + '\nWeek: ' + week.label + ' (' + week.dates + ')\n' + (day ? 'Day: ' + day + '\n' : '') + (isHol ? 'Holiday: ' + week.holiday + ' \u2014 +$50 bonus\n' : '') + 'Points earned: +' + pts + '\n\nDispatch fee reminder:\n\u2022 $299 for non-members & non-existing customers\n\u2022 Waived for: membership, repair over $3,000, high-$ existing customer\n\u2022 Never waive for new customers\n\nTime: ' + ts();
 }
 
-function getAllTechs(){
-  var all=[].concat(techs);
-  slots.forEach(function(s){
-    if(s.primary&&all.indexOf(s.primary)<0)all.push(s.primary);
-    Object.values(s.days).forEach(function(t){if(t&&all.indexOf(t)<0)all.push(t);});
+function setTab(t) {
+  activeTab = t;
+  ['roster', 'lb', 'summary', 'log'].forEach(function(x) {
+    document.getElementById('view-' + x).style.display = x === t ? 'block' : 'none';
+    document.getElementById('tab-' + x).classList.toggle('on', x === t);
   });
-  return all;
+  if (t === 'lb') renderLeaderboard();
+  if (t === 'summary') renderSummaries();
+  if (t === 'log') renderLog();
 }
 
-function techHolWks(name){
-  return WEEKS.reduce(function(a,w,i){
-    if(w.holiday&&(slots[i].primary===name||Object.values(slots[i].days).indexOf(name)>=0))a.push(i);
-    return a;
-  },[]);
-}
-function hasConsecHol(name,idx){return techHolWks(name).some(function(i){return Math.abs(i-idx)<=1;});}
-
-function sendEmail(subj,body){
-  if(!settings.managerEmail||!settings.notifyEmail)return;
-  try{window.open('mailto:'+encodeURIComponent(settings.managerEmail)+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body));}catch(e){}
-}
-function emailBody(action,tech,week,day,isHol,pts){
-  return 'On-Call Roster Notification\n\nAction: '+action+'\nTech: '+tech+'\nWeek: '+week.label+' ('+week.dates+')\n'+(day?'Day: '+day+'\n':'')+(isHol?'Holiday: '+week.holiday+' \u2014 +$50 bonus\n':'')+'Points earned: +'+pts+'\n\nDispatch fee reminder:\n\u2022 $299 for non-members & non-existing customers\n\u2022 Waived for: membership, repair over $3,000, high-$ existing customer\n\u2022 Never waive for new customers\n\nTime: '+ts();
+function buildSelect(id, val) {
+  if (!techs.length) return '<input id="' + id + '" type="text" placeholder="Enter your name" maxlength="40" value="' + (val ? esc(val) : '') + '" />';
+  var opts = techs.map(function(t){ return '<option value="' + esc(t) + '"' + (val === t ? ' selected' : '') + '>' + esc(t) + '</option>'; }).join('');
+  return '<select id="' + id + '"><option value="" disabled' + (val ? '' : ' selected') + '>\u2014 Select your name \u2014</option>' + opts + '<option value="__new__">+ Add my name\u2026</option></select>';
 }
 
-function setTab(t){
-  activeTab=t;
-  ['roster','lb','summary','log'].forEach(function(x){
-    document.getElementById('view-'+x).style.display=x===t?'block':'none';
-    document.getElementById('tab-'+x).classList.toggle('on',x===t);
-  });
-  if(t==='lb')renderLeaderboard();
-  if(t==='summary')renderSummaries();
-  if(t==='log')renderLog();
-}
+function openOverlay(html) { document.getElementById('overlay-area').innerHTML = '<div class="overlay" id="ov" onclick="ovClick(event)">' + html + '</div>'; }
+function closeOverlay() { document.getElementById('overlay-area').innerHTML = ''; pending = null; }
+function ovClick(e) { if (e.target.id === 'ov') closeOverlay(); }
 
-function buildSelect(id,val){
-  if(!techs.length)return '<input id="'+id+'" type="text" placeholder="Enter your name" maxlength="40" value="'+(val?esc(val):'')+'" />';
-  var opts=techs.map(function(t){return '<option value="'+esc(t)+'"'+(val===t?' selected':'')+'>'+esc(t)+'</option>';}).join('');
-  return '<select id="'+id+'"><option value="" disabled'+(val?'':' selected')+'>\u2014 Select your name \u2014</option>'+opts+'<option value="__new__">+ Add my name\u2026</option></select>';
-}
+function openPrimary(wi) { pending = {mode:'primary', wi:wi}; renderModal(); }
+function openDay(wi, day) { pending = {mode:'day', wi:wi, day:day}; renderModal(); }
+function openSettings() { pending = {mode:'settings'}; renderModal(); }
 
-function openOverlay(html){document.getElementById('overlay-area').innerHTML='<div class="overlay" id="ov" onclick="ovClick(event)">'+html+'</div>';}
-function closeOverlay(){document.getElementById('overlay-area').innerHTML='';pending=null;}
-function ovClick(e){if(e.target.id==='ov')closeOverlay();}
+function renderModal() {
+  if (!pending) return;
+  var wi = pending.wi, w = wi != null ? WEEKS[wi] : null, isHol = w && !!w.holiday, html = '';
 
-function openPrimary(wi){pending={mode:'primary',wi:wi};renderModal();}
-function openDay(wi,day){pending={mode:'day',wi:wi,day:day};renderModal();}
-function openSettings(){pending={mode:'settings'};renderModal();}
-
-function renderModal(){
-  if(!pending)return;
-  var wi=pending.wi,w=wi!=null?WEEKS[wi]:null,isHol=w&&!!w.holiday,html='';
-
-  if(pending.mode==='primary'||pending.mode==='day'){
-    var isP=pending.mode==='primary';
-    var curVal=(document.querySelector('#overlay-area #m-sel')||{}).value||'';
-    var curNew=(document.getElementById('m-new')||{}).value||'';
-    var eName=curVal==='__new__'?curNew:curVal;
-    var showWarn=eName&&isHol&&hasConsecHol(eName,wi);
-    var showNew=curVal==='__new__';
-    var pts=isP?(isHol?SCORING.primary+SCORING.holidayPrimary:SCORING.primary):(isHol?SCORING.backupDay+SCORING.holidayDay:SCORING.backupDay);
-    var title=isP?'Claim week as primary':'Cover '+pending.day;
-    var sub=isP?w.label+' &bull; '+w.dates+' &bull; Full week on-call':w.label+' &bull; '+w.dates+' &bull; Backup on <strong>'+pending.day+'</strong> only';
-    html='<div class="modal">'
-      +'<div class="mt">'+title+'</div><div class="ms">'+sub+'</div>'
-      +'<div class="m-pts"><strong>+'+pts+' points</strong> awarded for this shift'+(isHol?' (includes holiday bonus points)':'')+'.<br>Points count toward the leaderboard and end-of-period bonus!</div>'
-      +(isHol?'<div class="m-bonus"><strong>Holiday week \u2014 '+esc(w.holiday)+'</strong><br>+$50 holiday pay bonus on top of regular pay!</div>':'')
-      +(showWarn?'<div class="m-warn"><strong>Holiday conflict</strong> \u2014 '+esc(eName)+' already has a nearby holiday week. Consider spreading the bonus around.</div>':'')
-      +'<div class="m-dp"><strong>Dispatch reminder:</strong> $299 for non-members &bull; Waived: members &bull; repair &gt;$3k &bull; high-$ existing &bull; Never waive new customers</div>'
-      +'<div class="fld"><label>Your name</label>'+buildSelect('m-sel',curVal)+(showNew?'<input id="m-new" type="text" placeholder="Type your name" maxlength="40" style="margin-top:8px" value="'+esc(curNew)+'" />':'')+'</div>'
-      +'<div class="m-acts"><button class="bcx" onclick="closeOverlay()">Cancel</button><button class="'+(isP?'bok':'bgrn')+'" onclick="'+(isP?'confirmPrimary':'confirmDay')+'()">'+(isP?'Claim week':'Cover '+pending.day)+'</button></div>'
-      +'</div>';
+  if (pending.mode === 'primary' || pending.mode === 'day') {
+    var isP = pending.mode === 'primary';
+    var curVal = (document.querySelector('#overlay-area #m-sel') || {}).value || '';
+    var curNew = (document.getElementById('m-new') || {}).value || '';
+    var eName = curVal === '__new__' ? curNew : curVal;
+    var showWarn = eName && isHol && hasConsecHol(eName, wi);
+    var showNew = curVal === '__new__';
+    var pts = Roster.pointsFor(isP ? 'primary' : 'backup', isHol);
+    var title = isP ? 'Claim week as primary' : 'Cover ' + pending.day;
+    var sub = isP ? w.label + ' &bull; ' + w.dates + ' &bull; Full week on-call' : w.label + ' &bull; ' + w.dates + ' &bull; Backup on <strong>' + pending.day + '</strong> only';
+    html = '<div class="modal">'
+      + '<div class="mt">' + title + '</div><div class="ms">' + sub + '</div>'
+      + '<div class="m-pts"><strong>+' + pts + ' points</strong> awarded for this shift' + (isHol ? ' (includes holiday bonus points)' : '') + '.<br>Points count toward the leaderboard and end-of-period bonus!</div>'
+      + (isHol ? '<div class="m-bonus"><strong>Holiday week \u2014 ' + esc(w.holiday) + '</strong><br>+$50 holiday pay bonus on top of regular pay. A week with more than one holiday still pays the bonus once.</div>' : '')
+      + (showWarn ? '<div class="m-warn"><strong>Holiday conflict</strong> \u2014 ' + esc(eName) + ' already has a nearby holiday week. Consider spreading the bonus around.</div>' : '')
+      + '<div class="m-dp"><strong>Dispatch reminder:</strong> $299 for non-members &bull; Waived: members &bull; repair &gt;$3k &bull; high-$ existing &bull; Never waive new customers</div>'
+      + '<div class="fld"><label>Your name</label>' + buildSelect('m-sel', curVal) + (showNew ? '<input id="m-new" type="text" placeholder="Type your name" maxlength="40" style="margin-top:8px" value="' + esc(curNew) + '" />' : '') + '</div>'
+      + '<div class="m-acts"><button class="bcx" type="button" onclick="closeOverlay()">Cancel</button><button class="' + (isP ? 'bok' : 'bgrn') + '" type="button" onclick="' + (isP ? 'confirmPrimary' : 'confirmDay') + '()">' + (isP ? 'Claim week' : 'Cover ' + pending.day) + '</button></div>'
+      + '</div>';
   }
-  if(pending.mode==='settings'){
-    var chips=techs.map(function(t){return '<div class="tch">'+esc(t)+'<button onclick="removeTech(\''+esc(t)+'\')">&#10005;</button></div>';}).join('');
-    html='<div class="modal"><div class="mt">Settings</div><div class="ms">Tech roster, notifications &amp; bonus prizes</div>'
-      +'<div class="fld"><label>Tech roster</label>'
-      +'<div class="tech-chips">'+(chips||'<span style="font-size:12px;color:var(--text2)">Empty \u2014 techs type their name when signing up</span>')+'</div>'
-      +'<div class="tech-add-row"><input id="new-tech-input" type="text" placeholder="Tech name" maxlength="30" style="flex:1" /><button class="bgrn" onclick="addTech()">Add</button></div>'
-      +'<div style="font-size:10px;color:var(--text2);margin-top:5px">If roster is empty, techs can type their name when signing up</div></div>'
-      +'<div class="fld"><label>Manager email</label><input id="mgr-email" type="email" placeholder="manager@company.com" value="'+esc(settings.managerEmail)+'" /></div>'
-      +'<div class="fld" style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="notify-toggle" '+(settings.notifyEmail?'checked':'')+' style="width:auto;margin:0" /><label for="notify-toggle" style="font-size:13px;color:var(--text);margin-bottom:0;font-weight:400;text-transform:none;letter-spacing:0">Email notification on each sign-up</label></div>'
-      +'<div style="font-size:13px;font-weight:600;color:var(--text);margin:12px 0 8px">Leaderboard prizes</div>'
-      +'<div class="fld"><label>&#127945; 1st place</label><input id="p1" type="text" value="'+esc(settings.prize1)+'" /></div>'
-      +'<div class="fld"><label>&#127944; 2nd place</label><input id="p2" type="text" value="'+esc(settings.prize2)+'" /></div>'
-      +'<div class="fld"><label>&#127943; 3rd place</label><input id="p3" type="text" value="'+esc(settings.prize3)+'" /></div>'
-      +'<div class="m-acts"><button class="bcx" onclick="closeOverlay()">Cancel</button><button class="bok" onclick="saveSettings()">Save</button><button class="bred" onclick="confirmClear()">Reset all data</button></div></div>';
+  if (pending.mode === 'settings') {
+    var chips = techs.map(function(t){ return '<div class="tch">' + esc(t) + '<button type="button" data-tech="' + esc(t) + '" onclick="removeTech(this.getAttribute(\'data-tech\'))">&#10005;</button></div>'; }).join('');
+    html = '<div class="modal"><div class="mt">Settings</div><div class="ms">Tech roster, notifications &amp; bonus prizes</div>'
+      + '<div class="fld"><label>Tech roster</label>'
+      + '<div class="tech-chips">' + (chips || '<span style="font-size:12px;color:var(--text2)">Empty \u2014 techs type their name when signing up</span>') + '</div>'
+      + '<div class="tech-add-row"><input id="new-tech-input" type="text" placeholder="Tech name" maxlength="30" style="flex:1" /><button class="bgrn" type="button" onclick="addTech()">Add</button></div>'
+      + '<div style="font-size:10px;color:var(--text2);margin-top:5px">If roster is empty, techs can type their name when signing up</div></div>'
+      + '<div class="fld"><label>Manager email</label><input id="mgr-email" type="email" placeholder="manager@company.com" value="' + esc(settings.managerEmail) + '" /></div>'
+      + '<div class="fld" style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="notify-toggle" ' + (settings.notifyEmail ? 'checked' : '') + ' style="width:auto;margin:0" /><label for="notify-toggle" style="font-size:13px;color:var(--text);margin-bottom:0;font-weight:400;text-transform:none;letter-spacing:0">Email notification on each sign-up</label></div>'
+      + '<div style="font-size:13px;font-weight:600;color:var(--text);margin:12px 0 8px">Leaderboard prizes</div>'
+      + '<div class="fld"><label>&#127945; 1st place</label><input id="p1" type="text" value="' + esc(settings.prize1) + '" /></div>'
+      + '<div class="fld"><label>&#127944; 2nd place</label><input id="p2" type="text" value="' + esc(settings.prize2) + '" /></div>'
+      + '<div class="fld"><label>&#127943; 3rd place</label><input id="p3" type="text" value="' + esc(settings.prize3) + '" /></div>'
+      + '<div class="m-acts"><button class="bcx" type="button" onclick="closeOverlay()">Cancel</button><button class="bok" type="button" onclick="saveSettings()">Save</button><button class="bred" type="button" onclick="confirmClear()">Reset all data</button></div></div>';
   }
 
   openOverlay(html);
-  setTimeout(function(){
-    var sel=document.getElementById('m-sel');
-    if(sel){
-      if(sel.tagName==='SELECT')sel.addEventListener('change',renderModal);
-      else sel.addEventListener('input',renderModal);
+  setTimeout(function() {
+    var sel = document.getElementById('m-sel');
+    if (sel) {
+      if (sel.tagName === 'SELECT') sel.addEventListener('change', renderModal);
+      else sel.addEventListener('input', renderModal);
     }
-    var mn=document.getElementById('m-new');if(mn)mn.addEventListener('input',renderModal);
-    var nt=document.getElementById('new-tech-input');if(nt)nt.addEventListener('keydown',function(e){if(e.key==='Enter')addTech();});
-  },20);
+    var mn = document.getElementById('m-new'); if (mn) mn.addEventListener('input', renderModal);
+    var nt = document.getElementById('new-tech-input'); if (nt) nt.addEventListener('keydown', function(e){ if (e.key === 'Enter') addTech(); });
+  }, 20);
 }
 
-function resolveName(){
-  var sel=document.getElementById('m-sel');if(!sel)return'';
-  if(sel.tagName==='INPUT')return sel.value.trim();
-  if(sel.value==='__new__'){var ni=document.getElementById('m-new');return ni?ni.value.trim():'';}
+function resolveName() {
+  var sel = document.getElementById('m-sel'); if (!sel) return '';
+  if (sel.tagName === 'INPUT') return sel.value.trim();
+  if (sel.value === '__new__') { var ni = document.getElementById('m-new'); return ni ? ni.value.trim() : ''; }
   return sel.value.trim();
 }
 
-async function confirmPrimary(){
-  var name=resolveName();if(!name){toast('Please enter your name.');return;}
-  var wi=pending.wi,w=WEEKS[wi],isHol=!!w.holiday;
-  var pts=isHol?SCORING.primary+SCORING.holidayPrimary:SCORING.primary;
+async function confirmPrimary() {
+  var name = resolveName(); if (!name) { toast('Please enter your name.'); return; }
+  var wi = pending.wi, w = WEEKS[wi], isHol = !!w.holiday;
+  var pts = Roster.pointsFor('primary', isHol);
   closeOverlay();
-  var r=await api({action:'signup_primary',wi:wi,name:name});
-  if(r){render();toast(name+' signed up \u2014 +'+pts+' points!');}
-  if(r&&settings.notifyEmail&&settings.managerEmail)sendEmail('On-Call Sign-Up: '+name+' \u2014 '+w.label,emailBody('Primary sign-up (full week)',name,w,null,isHol,pts));
+  var r = await api({action:'signup_primary', wi:wi, name:name});
+  if (r) { render(); toast(name + ' signed up \u2014 +' + pts + ' points!'); }
+  if (r && settings.notifyEmail && settings.managerEmail) sendEmail('On-Call Sign-Up: ' + name + ' \u2014 ' + w.label, emailBody('Primary sign-up (full week)', name, w, null, isHol, pts));
 }
 
-async function confirmDay(){
-  var name=resolveName();if(!name){toast('Please enter your name.');return;}
-  var wi=pending.wi,day=pending.day,w=WEEKS[wi],isHol=!!w.holiday;
-  var pts=isHol?SCORING.backupDay+SCORING.holidayDay:SCORING.backupDay;
+async function confirmDay() {
+  var name = resolveName(); if (!name) { toast('Please enter your name.'); return; }
+  var wi = pending.wi, day = pending.day, w = WEEKS[wi], isHol = !!w.holiday;
+  var pts = Roster.pointsFor('backup', isHol);
   closeOverlay();
-  var r=await api({action:'signup_day',wi:wi,day:day,name:name});
-  if(r){render();toast(name+' covering '+day+' \u2014 +'+pts+' points!');}
-  if(r&&settings.notifyEmail&&settings.managerEmail)sendEmail('On-Call Day Cover: '+name+' \u2014 '+day+', '+w.label,emailBody('Backup day cover ('+day+')',name,w,day,isHol,pts));
+  var r = await api({action:'signup_day', wi:wi, day:day, name:name});
+  if (r) { render(); toast(name + ' covering ' + day + ' \u2014 +' + pts + ' points!'); }
+  if (r && settings.notifyEmail && settings.managerEmail) sendEmail('On-Call Day Cover: ' + name + ' \u2014 ' + day + ', ' + w.label, emailBody('Backup day cover (' + day + ')', name, w, day, isHol, pts));
 }
 
-async function addTech(){
-  var inp=document.getElementById('new-tech-input');
-  var name=(inp?inp.value:'').trim();if(!name)return;
-  if(techs.indexOf(name)>=0){toast('Already in roster.');return;}
-  var r=await api({action:'add_tech',name:name});
-  if(r){if(inp)inp.value='';renderModal();toast(name+' added to roster');}
+async function addTech() {
+  var inp = document.getElementById('new-tech-input');
+  var name = (inp ? inp.value : '').trim(); if (!name) return;
+  if (techs.indexOf(name) >= 0) { toast('Already in roster.'); return; }
+  var r = await api({action:'add_tech', name:name});
+  if (r) { if (inp) inp.value = ''; renderModal(); toast(name + ' added to roster'); }
 }
 
-async function removeTech(name){
-  var r=await api({action:'remove_tech',name:name});
-  if(r)renderModal();
+async function removeTech(name) {
+  var r = await api({action:'remove_tech', name:name});
+  if (r) renderModal();
 }
 
-async function saveSettings(){
-  var params={action:'save_settings',
-    managerEmail:(document.getElementById('mgr-email')||{}).value||'',
-    notifyEmail:String(!!(document.getElementById('notify-toggle')||{}).checked),
-    prize1:(document.getElementById('p1')||{}).value||settings.prize1,
-    prize2:(document.getElementById('p2')||{}).value||settings.prize2,
-    prize3:(document.getElementById('p3')||{}).value||settings.prize3};
-  var r=await api(params);
-  if(r){closeOverlay();toast('Settings saved');}
+async function saveSettings() {
+  var params = {action:'save_settings',
+    managerEmail:(document.getElementById('mgr-email') || {}).value || '',
+    notifyEmail:String(!!(document.getElementById('notify-toggle') || {}).checked),
+    prize1:(document.getElementById('p1') || {}).value || settings.prize1,
+    prize2:(document.getElementById('p2') || {}).value || settings.prize2,
+    prize3:(document.getElementById('p3') || {}).value || settings.prize3};
+  var r = await api(params);
+  if (r) { closeOverlay(); toast('Settings saved'); }
 }
 
-async function confirmClear(){
-  if(!confirm('Clear all sign-ups, day covers, notes, and log? Tech roster will be kept.'))return;
-  var r=await api({action:'clear_all'});
-  if(r){closeOverlay();render();toast('All data cleared');}
+async function confirmClear() {
+  if (!confirm('Clear all sign-ups, day covers, notes, and log? Tech roster will be kept.')) return;
+  var r = await api({action:'clear_all'});
+  if (r) { closeOverlay(); render(); toast('All data cleared'); }
 }
 
-async function removePrimary(wi){
-  var n=slots[wi].primary,w=WEEKS[wi];
-  var r=await api({action:'remove_primary',wi:wi});
-  if(r){render();toast(n+' removed from '+w.label);}
+async function removePrimary(wi) {
+  var n = slotAt(wi).primary, w = WEEKS[wi];
+  var r = await api({action:'remove_primary', wi:wi});
+  if (r) { render(); toast(n + ' removed from ' + w.label); }
 }
 
-async function removeDay(wi,day){
-  var n=slots[wi].days[day],w=WEEKS[wi];
-  var r=await api({action:'remove_day',wi:wi,day:day});
-  if(r){render();toast(n+' removed from '+day+' in '+w.label);}
+async function removeDay(wi, day) {
+  var n = slotAt(wi).days[day], w = WEEKS[wi];
+  var r = await api({action:'remove_day', wi:wi, day:day});
+  if (r) { render(); toast(n + ' removed from ' + day + ' in ' + w.label); }
 }
 
-function saveNote(wi){
+function saveNote(wi) {
   clearTimeout(noteTimers[wi]);
-  noteTimers[wi]=setTimeout(async function(){
-    var el=document.getElementById('note-'+wi);
-    if(el)await api({action:'save_note',wi:wi,note:el.value});
-  },1200);
+  noteTimers[wi] = setTimeout(async function() {
+    var el = document.getElementById('note-' + wi);
+    if (el) await api({action:'save_note', wi:wi, note:el.value});
+  }, 1200);
 }
 
-function render(){
+function togglePast() {
+  showEmptyPast = !showEmptyPast;
+  render();
+}
+function scrollToCurrent() {
+  var el = document.getElementById('current-week');
+  if (el) el.scrollIntoView({block:'center'});
+}
+
+function renderHeading() {
+  var first = WEEKS[0], last = WEEKS[WEEKS.length - 1];
+  document.getElementById('page-sub').textContent = 'Claim your week. Earn points. The schedule starts ' + Roster.formatLong(first.start) + ' and has no end date. Showing through ' + Roster.formatLong(last.end) + '.';
+}
+
+function renderPastToggle() {
+  var btn = document.getElementById('past-toggle');
+  if (!btn) return;
+  var hidden = 0;
+  WEEKS.forEach(function(w, i) { if (isPastEmpty(w, slotAt(i))) hidden++; });
+  if (!hidden) { btn.style.display = 'none'; return; }
+  btn.style.display = '';
+  btn.textContent = showEmptyPast ? 'Hide empty past weeks' : 'Show empty past weeks (' + hidden + ')';
+}
+
+function render() {
+  renderHeading();
   renderStats();
-  if(activeTab==='roster')renderWeeks();
-  if(activeTab==='lb')renderLeaderboard();
-  if(activeTab==='summary')renderSummaries();
-  if(activeTab==='log')renderLog();
+  renderPastToggle();
+  if (activeTab === 'roster') renderWeeks();
+  if (activeTab === 'lb') renderLeaderboard();
+  if (activeTab === 'summary') renderSummaries();
+  if (activeTab === 'log') renderLog();
 }
 
-function renderStats(){
-  var fp=slots.filter(function(s){return s.primary;}).length;
-  var dc=slots.reduce(function(a,s){return a+Object.keys(s.days).length;},0);
-  var open=slots.filter(function(s){return!s.primary;}).length;
-  var hl=WEEKS.filter(function(w,i){return w.holiday&&slots[i].primary;}).length;
-  document.getElementById('stats').innerHTML=
-    '<div class="stat"><div class="stat-lbl">Open weeks</div><div class="stat-val" style="color:'+(open>0?'var(--danger)':'var(--success)')+'">'+open+'</div></div>'+
-    '<div class="stat"><div class="stat-lbl">Primary claimed</div><div class="stat-val">'+fp+' / '+WEEKS.length+'</div></div>'+
-    '<div class="stat"><div class="stat-lbl">Day covers logged</div><div class="stat-val">'+dc+'</div></div>'+
-    '<div class="stat"><div class="stat-lbl">Holiday weeks filled</div><div class="stat-val">'+hl+' / 3</div></div>';
+function renderStats() {
+  var fp = 0, dc = 0, open = 0, holFilled = 0, holTotal = 0, currentOpen = false;
+  WEEKS.forEach(function(w, i) {
+    var s = slotAt(i);
+    if (s.primary) fp++;
+    dc += Object.keys(s.days).length;
+    if (w.end >= TODAY && !s.primary) open++;
+    if (w.start <= TODAY && TODAY <= w.end && !s.primary) currentOpen = true;
+    if (w.holiday) {
+      holTotal++;
+      if (s.primary) holFilled++;
+    }
+  });
+  var openColor = currentOpen ? 'var(--danger)' : (open ? 'var(--text)' : 'var(--success)');
+  document.getElementById('stats').innerHTML =
+    '<div class="stat"><div class="stat-lbl">Open weeks</div><div class="stat-val" style="color:' + openColor + '">' + open + '</div></div>' +
+    '<div class="stat"><div class="stat-lbl">Primary claimed</div><div class="stat-val">' + fp + ' / ' + WEEKS.length + '</div></div>' +
+    '<div class="stat"><div class="stat-lbl">Day covers logged</div><div class="stat-val">' + dc + '</div></div>' +
+    '<div class="stat"><div class="stat-lbl">Holiday weeks filled</div><div class="stat-val">' + holFilled + ' / ' + holTotal + '</div></div>';
 }
 
-function renderLeaderboard(){
-  document.getElementById('prize1-lbl').textContent=settings.prize1;
-  document.getElementById('prize2-lbl').textContent=settings.prize2;
-  document.getElementById('prize3-lbl').textContent=settings.prize3;
-  document.getElementById('pt-key').innerHTML=
-    '<div class="pt-item"><span class="pt-val">+'+SCORING.primary+'</span> pts \u2014 primary week</div>'+
-    '<div class="pt-item"><span class="pt-val">+'+SCORING.backupDay+'</span> pts \u2014 backup day</div>'+
-    '<div class="pt-item"><span class="pt-val">+'+SCORING.holidayPrimary+'</span> bonus pts \u2014 holiday primary</div>'+
-    '<div class="pt-item"><span class="pt-val">+'+SCORING.holidayDay+'</span> bonus pts \u2014 holiday backup day</div>';
+function renderLeaderboard() {
+  document.getElementById('prize1-lbl').textContent = settings.prize1;
+  document.getElementById('prize2-lbl').textContent = settings.prize2;
+  document.getElementById('prize3-lbl').textContent = settings.prize3;
+  var scoring = Roster.SCORING;
+  document.getElementById('pt-key').innerHTML =
+    '<div class="pt-item"><span class="pt-val">+' + scoring.primary + '</span> pts \u2014 primary week</div>' +
+    '<div class="pt-item"><span class="pt-val">+' + scoring.backupDay + '</span> pts \u2014 backup day</div>' +
+    '<div class="pt-item"><span class="pt-val">+' + scoring.holidayPrimary + '</span> bonus pts \u2014 holiday primary</div>' +
+    '<div class="pt-item"><span class="pt-val">+' + scoring.holidayDay + '</span> bonus pts \u2014 holiday backup day</div>';
 
-  var all=getAllTechs();
-  if(!all.length){document.getElementById('leaderboard').innerHTML='<div class="lempty">No sign-ups yet \u2014 leaderboard will appear once techs start claiming shifts.</div>';return;}
-
-  var ranked=all.map(function(name){var r=calcPoints(name);r.name=name;return r;}).sort(function(a,b){return b.pts-a.pts;});
-  var maxPts=ranked[0]?ranked[0].pts:1;
-  var rankIcon=function(r){return r===1?'\uD83E\uDD47':r===2?'\uD83E\uDD48':r===3?'\uD83E\uDD49':'#'+r;};
-  var barCol=function(r){return r===1?'#FAC775':r===2?'#B4B2A9':r===3?'#F0997B':'#85B7EB';};
-  var tierBadge=function(r){
-    if(r===1)return'<span class="tier-badge t-gold">\uD83E\uDD47 '+esc(settings.prize1)+'</span>';
-    if(r===2)return'<span class="tier-badge t-silver">\uD83E\uDD48 '+esc(settings.prize2)+'</span>';
-    if(r===3)return'<span class="tier-badge t-bronze">\uD83E\uDD49 '+esc(settings.prize3)+'</span>';
-    return'<span class="tier-badge t-none">Keep climbing</span>';
+  var ranked = Roster.buildLeaderboard(techs, WEEKS, slots);
+  if (!ranked.length) {
+    document.getElementById('leaderboard').innerHTML = '<div class="lempty">No sign-ups yet \u2014 leaderboard will appear once techs start claiming shifts.</div>';
+    return;
+  }
+  var maxPts = ranked[0].pts;
+  var rankIcon = function(t) {
+    if (t.prizeTier === 1) return '\uD83E\uDD47';
+    if (t.prizeTier === 2) return '\uD83E\uDD48';
+    if (t.prizeTier === 3) return '\uD83E\uDD49';
+    return '#' + t.rank;
+  };
+  var barCol = function(tier) { return tier === 1 ? '#FAC775' : tier === 2 ? '#B4B2A9' : tier === 3 ? '#F0997B' : '#85B7EB'; };
+  var tierBadge = function(t) {
+    if (t.prizeTier === 1) return '<span class="tier-badge t-gold">\uD83E\uDD47 ' + esc(settings.prize1) + '</span>';
+    if (t.prizeTier === 2) return '<span class="tier-badge t-silver">\uD83E\uDD48 ' + esc(settings.prize2) + '</span>';
+    if (t.prizeTier === 3) return '<span class="tier-badge t-bronze">\uD83E\uDD49 ' + esc(settings.prize3) + '</span>';
+    return '<span class="tier-badge t-none">Keep climbing</span>';
   };
 
-  document.getElementById('leaderboard').innerHTML=ranked.map(function(t,idx){
-    var rank=idx+1,pct=maxPts>0?Math.round((t.pts/maxPts)*100):0;
-    var rc='lb-row'+(rank<=3?' r'+rank:'');
-    return'<div class="'+rc+'">'
-      +'<div class="lb-rank">'+rankIcon(rank)+'</div>'
-      +'<div><div class="lb-name">'+esc(t.name)+'</div><div class="bar-wrap"><div class="bar-fill" style="width:'+pct+'%;background:'+barCol(rank)+'"></div></div><div class="lb-sub">'+pct+'% of leader</div></div>'
-      +'<div class="lb-num">'+t.primWks+'<small>weeks</small></div>'
-      +'<div class="lb-num">'+t.days+'<small>days</small></div>'
-      +'<div class="lb-num">'+t.holCount+'<small>holidays</small></div>'
-      +'<div style="text-align:center"><span class="pts-big">'+t.pts+'</span><div class="pts-lbl">points</div></div>'
-      +'<div style="text-align:right">'+tierBadge(rank)+'</div>'
-      +'</div>';
+  document.getElementById('leaderboard').innerHTML = ranked.map(function(t) {
+    var pct = maxPts > 0 ? Math.round((t.pts / maxPts) * 100) : 0;
+    var rc = 'lb-row' + (t.prizeTier ? ' r' + t.prizeTier : '');
+    return '<div class="' + rc + '" data-rank="' + t.rank + '" data-points="' + t.pts + '">'
+      + '<div class="lb-rank">' + rankIcon(t) + '</div>'
+      + '<div><div class="lb-name">' + esc(t.name) + '</div><div class="bar-wrap"><div class="bar-fill" style="width:' + pct + '%;background:' + barCol(t.prizeTier) + '"></div></div><div class="lb-sub">' + pct + '% of leader</div></div>'
+      + '<div class="lb-num">' + t.primWks + '<small>weeks</small></div>'
+      + '<div class="lb-num">' + t.days + '<small>days</small></div>'
+      + '<div class="lb-num">' + t.holCount + '<small>holidays</small></div>'
+      + '<div style="text-align:center"><span class="pts-big">' + t.pts + '</span><div class="pts-lbl">points</div></div>'
+      + '<div style="text-align:right">' + tierBadge(t) + '</div>'
+      + '</div>';
   }).join('');
 }
 
-function renderWeeks(){
-  document.getElementById('weeks').innerHTML=WEEKS.map(function(w,i){
-    var s=slots[i],isHol=!!w.holiday,isCur=i===0;
-    var cc='wk'+(isHol?' hol':isCur?' cur':'');
-    var primCell=s.primary
-      ?'<div class="pbox"><span class="pname">'+esc(s.primary)+(isHol?' \u2605':'')+'</span><button class="xbtn" onclick="removePrimary('+i+')">&#10005;</button></div>'
-      :'<button class="pempty" onclick="openPrimary('+i+')"><span style="font-size:15px;line-height:1">+</span> I\'ll take this week</button>';
-    var cov=Object.keys(s.days).length;
-    var dayCells=DAYS.map(function(d){
-      var tech=s.days[d];
+function renderWeeks() {
+  document.getElementById('weeks').innerHTML = WEEKS.map(function(w, i) {
+    var s = slotAt(i);
+    if (!weekShown(w, s)) return '';
+    var isHol = !!w.holiday;
+    var isCur = w.start <= TODAY && TODAY <= w.end;
+    var cc = 'wk' + (isHol ? ' hol' : '') + (isCur ? ' cur' : '');
+    var primCell = s.primary
+      ? '<div class="pbox"><span class="pname">' + esc(s.primary) + (isHol ? ' \u2605' : '') + '</span><button class="xbtn" type="button" onclick="removePrimary(' + i + ')">&#10005;</button></div>'
+      : '<button class="pempty" type="button" onclick="openPrimary(' + i + ')"><span style="font-size:15px;line-height:1">+</span> I\'ll take this week</button>';
+    var cov = Object.keys(s.days).length;
+    var dayCells = DAYS.map(function(d) {
+      var tech = s.days[d];
       return tech
-        ?'<div class="dbtn tk"><span class="dlbl">'+d+'</span><span class="dtech">'+esc(tech)+'</span><button class="drem" onclick="removeDay('+i+',\''+d+'\')">&#10005;</button></div>'
-        :'<div class="dbtn" onclick="openDay('+i+',\''+d+'\')"><span class="dlbl">'+d+'</span><span class="dplus">+</span></div>';
+        ? '<div class="dbtn tk"><span class="dlbl">' + esc(d) + '</span><span class="dtech">' + esc(tech) + '</span><button class="drem" type="button" onclick="removeDay(' + i + ',\'' + d + '\')">&#10005;</button></div>'
+        : '<div class="dbtn" onclick="openDay(' + i + ',\'' + d + '\')"><span class="dlbl">' + esc(d) + '</span><span class="dplus">+</span></div>';
     }).join('');
-    return'<div class="'+cc+'">'
-      +'<div class="wk-row">'
-      +'<div class="wc"><div class="wlbl">'+w.label+'</div><div class="wdr">'+w.dates+'</div>'+(isCur?'<span class="tag t-now">Current week</span>':'')+(isHol?'<span class="tag t-hol">'+esc(w.holiday)+' +$50</span>':'')+'</div>'
-      +'<div class="wc">'+primCell+'</div>'
-      +'<div class="wc"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:9px;color:var(--text2)">Backup days</span><span style="font-size:9px;color:'+(cov===7?'var(--success)':'var(--text2)')+'">'+cov+'/7 covered</span></div><div class="dgrid">'+dayCells+'</div><div class="chint">tap any open day to cover it</div></div>'
-      +'<div class="wc"><div class="dp-card"><strong>$299</strong> dispatch fee<br>Waived if:<br>&bull; On membership<br>&bull; Repair &gt;$3,000<br>&bull; High-$ existing<br><em>Never waive new customers</em></div></div>'
-      +'<div class="wc"><textarea id="note-'+i+'" class="nta" placeholder="Notes, instructions\u2026" oninput="saveNote('+i+')">'+esc(s.note||'')+'</textarea></div>'
-      +'</div></div>';
+    return '<div class="' + cc + '" id="' + (isCur ? 'current-week' : ('week-' + i)) + '" data-start="' + w.start + '">'
+      + '<div class="wk-row">'
+      + '<div class="wc"><div class="wlbl">' + esc(w.label) + '</div><div class="wdr">' + esc(w.dates) + '</div>' + (isCur ? '<span class="tag t-now">Current week</span>' : '') + (isHol ? '<span class="tag t-hol">' + esc(w.holiday) + ' +$50</span>' : '') + '</div>'
+      + '<div class="wc">' + primCell + '</div>'
+      + '<div class="wc"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:9px;color:var(--text2)">Backup days</span><span style="font-size:9px;color:' + (cov === DAYS.length ? 'var(--success)' : 'var(--text2)') + '">' + cov + '/' + DAYS.length + ' covered</span></div><div class="dgrid">' + dayCells + '</div><div class="chint">tap any open day to cover it</div></div>'
+      + '<div class="wc"><div class="dp-card"><strong>$299</strong> dispatch fee<br>Waived if:<br>&bull; On membership<br>&bull; Repair &gt;$3,000<br>&bull; High-$ existing<br><em>Never waive new customers</em></div></div>'
+      + '<div class="wc"><textarea id="note-' + i + '" class="nta" placeholder="Notes, instructions\u2026" oninput="saveNote(' + i + ')">' + esc(s.note || '') + '</textarea></div>'
+      + '</div></div>';
   }).join('');
 }
 
-function renderSummaries(){
-  document.getElementById('summaries').innerHTML=WEEKS.map(function(w,i){
-    var s=slots[i],isHol=!!w.holiday;
-    var cov=Object.keys(s.days).map(function(d){return[d,s.days[d]];});
-    var open=DAYS.filter(function(d){return!s.days[d];});
-    return'<div class="sum-card">'
-      +'<div class="sum-head"><div><div class="sum-wk">'+w.label+' &bull; '+w.dates+(isHol?' <span style="color:var(--amber-tx);font-size:12px">\u2014 '+esc(w.holiday)+' &bull; +$50</span>':'')+'</div></div><span style="font-size:11px;color:var(--text2)">'+Object.keys(s.days).length+'/7 days</span></div>'
-      +'<div class="sum-row"><span class="sum-lbl">Primary</span><span style="font-weight:600;color:'+(s.primary?'var(--blue-tx)':'var(--danger)')+'">'+esc(s.primary||'\u2014 Not claimed yet')+'</span></div>'
-      +(cov.length?'<div class="sum-row"><span class="sum-lbl">Day covers</span><div style="display:flex;flex-wrap:wrap;gap:4px">'+cov.map(function(e){return'<span style="background:var(--green-bg);color:var(--green-tx);border:0.5px solid var(--green-bd);border-radius:20px;font-size:11px;padding:2px 9px;font-weight:500">'+e[0]+': '+esc(e[1])+'</span>';}).join('')+'</div></div>':'')
-      +(open.length?'<div class="sum-row"><span class="sum-lbl">Open days</span><div style="display:flex;flex-wrap:wrap;gap:3px">'+open.map(function(d){return'<span style="background:var(--bg2);color:var(--text2);border:0.5px dashed var(--border2);border-radius:20px;font-size:11px;padding:2px 9px">'+d+'</span>';}).join('')+'</div></div>':'')
-      +(s.note?'<div class="sum-row"><span class="sum-lbl">Notes</span><span style="font-size:12px;color:var(--text2);font-style:italic">'+esc(s.note)+'</span></div>':'')
-      +'</div>';
+function renderSummaries() {
+  document.getElementById('summaries').innerHTML = WEEKS.map(function(w, i) {
+    var s = slotAt(i);
+    if (!weekShown(w, s)) return '';
+    var isHol = !!w.holiday;
+    var cov = Object.keys(s.days).map(function(d){ return [d, s.days[d]]; });
+    var open = DAYS.filter(function(d){ return !s.days[d]; });
+    return '<div class="sum-card">'
+      + '<div class="sum-head"><div><div class="sum-wk">' + esc(w.label) + ' &bull; ' + esc(w.dates) + (isHol ? ' <span style="color:var(--amber-tx);font-size:12px">\u2014 ' + esc(w.holiday) + ' &bull; +$50</span>' : '') + '</div></div><span style="font-size:11px;color:var(--text2)">' + Object.keys(s.days).length + '/' + DAYS.length + ' days</span></div>'
+      + '<div class="sum-row"><span class="sum-lbl">Primary</span><span style="font-weight:600;color:' + (s.primary ? 'var(--blue-tx)' : 'var(--danger)') + '">' + esc(s.primary || '\u2014 Not claimed yet') + '</span></div>'
+      + (cov.length ? '<div class="sum-row"><span class="sum-lbl">Day covers</span><div style="display:flex;flex-wrap:wrap;gap:4px">' + cov.map(function(e){ return '<span style="background:var(--green-bg);color:var(--green-tx);border:0.5px solid var(--green-bd);border-radius:20px;font-size:11px;padding:2px 9px;font-weight:500">' + esc(e[0]) + ': ' + esc(e[1]) + '</span>'; }).join('') + '</div></div>' : '')
+      + (open.length ? '<div class="sum-row"><span class="sum-lbl">Open days</span><div style="display:flex;flex-wrap:wrap;gap:3px">' + open.map(function(d){ return '<span style="background:var(--bg2);color:var(--text2);border:0.5px dashed var(--border2);border-radius:20px;font-size:11px;padding:2px 9px">' + esc(d) + '</span>'; }).join('') + '</div></div>' : '')
+      + (s.note ? '<div class="sum-row"><span class="sum-lbl">Notes</span><span style="font-size:12px;color:var(--text2);font-style:italic">' + esc(s.note) + '</span></div>' : '')
+      + '</div>';
+  }).join('') || '<div class="lempty">No weeks to show.</div>';
+}
+
+function renderLog() {
+  if (!log.length) { document.getElementById('logbody').innerHTML = '<div class="lempty">No activity recorded yet.</div>'; return; }
+  var tag = function(t){ return ({primary:'<span style="color:var(--blue-tx);font-weight:600">Primary</span>', day:'<span style="color:var(--green-tx);font-weight:600">Day cover</span>', holiday:'<span style="color:var(--amber-tx);font-weight:600">\u2605 Holiday</span>', remove:'<span style="color:var(--danger)">Removed</span>'})[t] || '<span style="color:var(--text2)">\u2014</span>'; };
+  document.getElementById('logbody').innerHTML = log.slice(0, 80).map(function(e) {
+    return '<div class="lrow"><span style="color:var(--text2)">' + esc(e.t) + '</span><span style="font-weight:600">' + esc(e.tech) + '</span><span style="color:var(--text2)">' + esc(e.wk) + '</span><span style="color:var(--text2)">' + esc(e.action) + '</span>' + tag(e.type) + '</div>';
   }).join('');
 }
 
-function renderLog(){
-  if(!log.length){document.getElementById('logbody').innerHTML='<div class="lempty">No activity recorded yet.</div>';return;}
-  var tag=function(t){return({primary:'<span style="color:var(--blue-tx);font-weight:600">Primary</span>',day:'<span style="color:var(--green-tx);font-weight:600">Day cover</span>',holiday:'<span style="color:var(--amber-tx);font-weight:600">\u2605 Holiday</span>',remove:'<span style="color:var(--danger)">Removed</span>'})[t]||'<span style="color:var(--text2)">\u2014</span>';};
-  document.getElementById('logbody').innerHTML=log.slice(0,80).map(function(e){
-    return'<div class="lrow"><span style="color:var(--text2)">'+esc(e.t)+'</span><span style="font-weight:600">'+esc(e.tech)+'</span><span style="color:var(--text2)">'+esc(e.wk)+'</span><span style="color:var(--text2)">'+esc(e.action)+'</span>'+tag(e.type)+'</div>';
-  }).join('');
-}
-
-// Wire up notes to auto-save with debounce
-function onNoteInput(wi){saveNote(wi);}
-
+render();
 load();
 </script>
-
 
 </body></html>
