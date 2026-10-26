@@ -280,8 +280,11 @@ input:focus,select:focus,textarea:focus{border-color:#185FA5;box-shadow:0 0 0 3p
 <script src="roster.js"></script>
 <script>
 // Week list, holidays, and scoring live in roster.js.
-// SCRIPT_URL is the Google Apps Script web app. See README for what it accepts.
+// SCRIPT_URL is the Google Apps Script web app. See README and apps-script/SETUP.md.
+// SCRIPT_TOKEN must match Script Property ROSTER_TOKEN once REQUIRE_TOKEN is true.
+// Leave it blank until then. Do not reuse a password from email or banking.
 var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyswF6TfJ70hoQKuiwT7oYknO5hzgxEG3bKgVMFzPgVcVb05Mhr5_zjSpMQ3v_Ip9PVsw/exec';
+var SCRIPT_TOKEN = '';
 
 if (typeof Roster === 'undefined') {
   document.getElementById('weeks').textContent = 'Could not load roster.js.';
@@ -301,7 +304,13 @@ var showEmptyPast = false;
 
 function isConfigured() { return !!SCRIPT_URL; }
 function showSaving(on) { var el = document.getElementById('saving-ind'); if (el) el.style.display = on ? 'flex' : 'none'; }
-function showOffline(on) { var el = document.getElementById('offline-banner'); if (el) el.style.display = on ? 'block' : 'none'; }
+var OFFLINE_TEXT = 'Could not reach the server. Check your connection and refresh the page.';
+function showOffline(on, message) {
+  var el = document.getElementById('offline-banner');
+  if (!el) return;
+  el.style.display = on ? 'block' : 'none';
+  el.textContent = on ? (message || OFFLINE_TEXT) : OFFLINE_TEXT;
+}
 function ts() { return new Date().toLocaleString('en-US', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'}); }
 function toast(msg) { var t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); }, 3000); }
 function esc(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
@@ -336,10 +345,13 @@ async function api(params) {
   if (!isConfigured()) { toast('Add your SCRIPT_URL in index.html.'); return null; }
   showSaving(true);
   try {
-    var qs = Object.keys(params).map(function(k){ return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]); }).join('&');
+    var payload = {};
+    Object.keys(params).forEach(function (k) { payload[k] = params[k]; });
+    if (SCRIPT_TOKEN) payload.token = SCRIPT_TOKEN;
+    var qs = Object.keys(payload).map(function (k) { return encodeURIComponent(k) + '=' + encodeURIComponent(payload[k]); }).join('&');
     var res = await fetch(SCRIPT_URL + '?' + qs);
     var data = await res.json();
-    if (data.error) throw new Error(data.error);
+    if (data.error) { showOffline(true, String(data.error)); return null; }
     applyPayload(data);
     showOffline(false);
     return data;
@@ -443,6 +455,7 @@ function renderModal() {
       + '<div class="fld"><label>&#127945; 1st place</label><input id="p1" type="text" value="' + esc(settings.prize1) + '" /></div>'
       + '<div class="fld"><label>&#127944; 2nd place</label><input id="p2" type="text" value="' + esc(settings.prize2) + '" /></div>'
       + '<div class="fld"><label>&#127943; 3rd place</label><input id="p3" type="text" value="' + esc(settings.prize3) + '" /></div>'
+      + '<div class="m-info"><strong>Shared token.</strong> ' + (SCRIPT_TOKEN ? 'A shared token is set, and this page sends it with every request.' : 'No shared token is set yet. Paste it into SCRIPT_TOKEN in index.html before turning the check on.') + ' It is not stored in the spreadsheet.</div>'
       + '<div class="m-acts"><button class="bcx" type="button" onclick="closeOverlay()">Cancel</button><button class="bok" type="button" onclick="saveSettings()">Save</button><button class="bred" type="button" onclick="confirmClear()">Reset all data</button></div></div>';
   }
 
@@ -511,7 +524,7 @@ async function saveSettings() {
 
 async function confirmClear() {
   if (!confirm('Clear all sign-ups, day covers, notes, and log? Tech roster will be kept.')) return;
-  var r = await api({action:'clear_all'});
+  var r = await api({action:'clear_all', confirm:'CLEAR'});
   if (r) { closeOverlay(); render(); toast('All data cleared'); }
 }
 

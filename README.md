@@ -50,10 +50,10 @@ Empty past weeks are hidden so the April–October gap does not fill the page. P
 No install and no site build:
 
 ```bash
-node --test test/roster.test.js
+node --test test/roster.test.js test/apps-script.test.js
 ```
 
-`npm test` runs the same command.
+`npm test` runs the same command. `test/roster.test.js` covers weeks and scoring. `test/apps-script.test.js` checks that `apps-script/Code.gs` uses those same holiday points.
 
 ## GitHub Pages
 
@@ -61,16 +61,11 @@ Publish the repository root (`/`). The pages to serve are `index.html` and `rost
 
 ## Data backend
 
-The browser loads and saves through the Google Apps Script web app URL in `index.html` (`SCRIPT_URL`). The script source is not in this repo. This is what the client sends.
-
-Every call is an HTTP GET with query parameters. The page does not send an API key, bearer token, cookie, or Google sign-in.
-
-`action=get` returns the roster with no sign-in. A read from this environment came back HTTP 200 JSON and included the slots, tech names, activity log, prize text, notification toggle, and manager email. No write was sent.
-
-These actions use that same public URL, still with no credential:
+The browser loads and saves through the Google Apps Script web app URL in `index.html` (`SCRIPT_URL`). Every call is an HTTP GET. When `SCRIPT_TOKEN` is filled in, the page also sends it as `token` on every action, including `get`. Reset sends `confirm=CLEAR` as well.
 
 | Action | Parameters |
 | --- | --- |
+| `get` | `action`, and `token` once `SCRIPT_TOKEN` is set |
 | `signup_primary` | `action`, `wi`, `name` |
 | `signup_day` | `action`, `wi`, `day`, `name` |
 | `remove_primary` | `action`, `wi` |
@@ -79,15 +74,13 @@ These actions use that same public URL, still with no credential:
 | `add_tech` | `action`, `name` |
 | `remove_tech` | `action`, `name` |
 | `save_settings` | `action`, `managerEmail`, `notifyEmail`, `prize1`, `prize2`, `prize3` |
-| `clear_all` | `action` |
+| `clear_all` | `action`, `confirm=CLEAR` |
 
-Nothing in the client adds a secret for writes that it skips on reads. The read is already anonymous, so treat writes as open to anyone who has the web app URL. That includes `clear_all`.
+The script that is deployed today still answers `action=get` with no sign-in. A read returned the slots, tech names, activity log, prize text, notification toggle, and manager email. No write was sent. That deployed script does not check a token, and it stores 11 weeks. Treat it as open to anyone who has the URL until it is replaced.
 
-Add a shared token check in the Apps Script (store it in Script Properties and reject the request when the query parameter does not match). Check it on every action, including `get`, because a read already returns the manager email and the full roster. A token shipped in this public page only stops someone who has the script URL and not the site. Anyone who can open the roster can read the token out of the page source. A stronger limit is to deploy the web app so only the company Google Workspace domain can call it, if that matches how techs open the page.
+The replacement you can paste in is `apps-script/Code.gs`. Follow `apps-script/SETUP.md`. It grows week slots on demand, scores holiday log lines the same way as the leaderboard, and ignores the token until Script Property `REQUIRE_TOKEN` is `true`. The spreadsheet layout behind the current script cannot be inferred from the JSON, so the new script does not rewrite unknown tabs. The setup guide starts with a spreadsheet copy and a JSON backup.
 
-The script currently has 11 stored weeks, through June 28, 2026. This page sends higher `wi` values for later weeks. After you publish, claim one current week and confirm the name is still there on refresh. If it disappears or the request errors, the script is still fixed at 11 slots and needs to append empty slots up to `wi`.
-
-Signup log lines such as "Claimed primary + 18 pts" are written by the script, not by this page. The leaderboard will score a new holiday week correctly even if the script's log still says +10, until that script's own holiday list is updated.
+`SCRIPT_TOKEN` is left blank in git. Fill it with the same value as Script Property `ROSTER_TOKEN` before turning the check on. Anyone who can open the published page can read that value. It blocks people who only have the script link.
 
 ## ServiceTitan function
 

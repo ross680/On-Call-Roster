@@ -2,6 +2,6 @@
   "name": "on-call-roster",
   "private": true,
   "scripts": {
-    "test": "node --test test/roster.test.js"
+    "test": "node --test test/roster.test.js test/apps-script.test.js"
   }
 }
